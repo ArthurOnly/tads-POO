@@ -1,0 +1,15 @@
+C:\Users\arthu\Desktop\projetoPOO\project\bin\Debug\net6.0\project.exe
+C:\Users\arthu\Desktop\projetoPOO\project\bin\Debug\net6.0\project.deps.json
+C:\Users\arthu\Desktop\projetoPOO\project\bin\Debug\net6.0\project.runtimeconfig.json
+C:\Users\arthu\Desktop\projetoPOO\project\bin\Debug\net6.0\project.dll
+C:\Users\arthu\Desktop\projetoPOO\project\bin\Debug\net6.0\ref\project.dll
+C:\Users\arthu\Desktop\projetoPOO\project\bin\Debug\net6.0\project.pdb
+C:\Users\arthu\Desktop\projetoPOO\project\obj\Debug\net6.0\project.csproj.AssemblyReference.cache
+C:\Users\arthu\Desktop\projetoPOO\project\obj\Debug\net6.0\project.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\arthu\Desktop\projetoPOO\project\obj\Debug\net6.0\project.AssemblyInfoInputs.cache
+C:\Users\arthu\Desktop\projetoPOO\project\obj\Debug\net6.0\project.AssemblyInfo.cs
+C:\Users\arthu\Desktop\projetoPOO\project\obj\Debug\net6.0\project.csproj.CoreCompileInputs.cache
+C:\Users\arthu\Desktop\projetoPOO\project\obj\Debug\net6.0\project.dll
+C:\Users\arthu\Desktop\projetoPOO\project\obj\Debug\net6.0\ref\project.dll
+C:\Users\arthu\Desktop\projetoPOO\project\obj\Debug\net6.0\project.pdb
+C:\Users\arthu\Desktop\projetoPOO\project\obj\Debug\net6.0\project.genruntimeconfig.cache
