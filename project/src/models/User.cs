@@ -2,6 +2,7 @@ namespace App.Models
 {
     abstract class User 
     {
+        private static List<User> _users = new List<User>();
         public static int quantity = 1;
         private int _id;
         private string _name;
@@ -38,7 +39,25 @@ namespace App.Models
             this.Email = email;
             this.Password = password;
             this.Id = quantity;
+            _users.Add(this);
             quantity++;
+        }
+
+        ~User()
+        {
+            _users.Remove(this);
+        }
+
+        public static User Login(string email, string password)
+        {
+            for (int i = 0; i < _users.Count; i++)
+            {
+                if (_users[i].Email == email && _users[i].Password == password)
+                {
+                    return _users[i];
+                }
+            }
+            return null;
         }
 
     }

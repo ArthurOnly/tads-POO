@@ -7,6 +7,8 @@ namespace App {
         static void Main(string[] args) {
             int option = 0;
 
+            Teacher initial = new Teacher("teste", "teste@teste", "123");
+
             Console.WriteLine("---- Bem vindo ao TextClassroom ----");
             do {
                 Console.WriteLine("---- Escolha uma opção ----");
@@ -17,35 +19,18 @@ namespace App {
 
                 if (option == 3) break;
 
-                Console.WriteLine("---- Digite seu email ----");
-                string email = Console.ReadLine();
-                Console.WriteLine("---- Digite sua senha ----");
-                string password = Console.ReadLine();
-
                 switch (option){
                     case 1:
-                        try{
-                            Teacher teacher = TeacherController.Login(email, password);
-                        } catch (Exception e){
-                            Console.WriteLine("Credenciais incorretas");
-                        }
+                        TeacherController.Login();
                         break;
                     case 2:
-                        try{
-                            Student student = StudentController.Login(email, password);
-                        } catch (Exception e){
-                            Console.WriteLine("Credenciais incorretas");
-                        }
+                        StudentController.Login();
+                        break;
+                    default:
+                        Console.WriteLine("Opção inválida");
                         break;
                 }
                 
-            } while (true);
-        }
-
-        public void TeacherMenu(Teacher teacher)
-        {
-            do{
-
             } while (true);
         }
     }

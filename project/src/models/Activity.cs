@@ -1,12 +1,17 @@
 namespace App.Models
 {
-    class Task 
+    class Activity
     {
+        private static List<Activity> _activities = new List<Activity>();
+
+        private List<Grade> _grades = new List<Grade>();
         private static int quantity = 1;
         private int _id;
         private string _name;
         private string _description;
         private string _link;
+
+        private Classroom _classroom;
 
         public int Id
         {
@@ -32,13 +37,32 @@ namespace App.Models
             set { _link = value; }
         }
 
-        public Task(string name, string description, string link)
+        public Classroom Classroom
+        {
+            get { return _classroom; }
+            set { _classroom = value; }
+        }
+
+        public List<Grade> Grades
+        {
+            get { return _grades; }
+            set { _grades = value; }
+        }
+
+        public Activity(string name, string description, string link, Classroom classroom)
         {
             this.Name = name;
             this.Description = description;
             this.Link = link;
             this.Id = quantity;
+            this.Classroom = classroom;
             quantity++;
+            _activities.Add(this);
+        }
+
+        ~Activity()
+        {
+            _activities.Remove(this);
         }
 
     }
