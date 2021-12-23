@@ -40,5 +40,35 @@ namespace App.Controllers
                 }
             } while (true);
         }
+
+        public static void MenuStudent(Student student, Activity activity)
+        {
+            do{
+                Console.WriteLine("---- Menu da atividade ----");
+                Console.WriteLine("1 - Mostrar descrição");
+                Console.WriteLine("2 - Mostrar nota do aluno");
+                Console.WriteLine("3 - Voltar");
+
+                int option = Convert.ToInt32(Console.ReadLine());
+
+                if (option == 3) break;
+
+                switch(option)
+                {
+                    case 1:
+                        Console.WriteLine(activity.Name + " - " + activity.Description + " - " + activity.Link);
+                        break;
+                    case 2:
+                        Grade grade = activity.Grades.Find(x => x.Student.Id == student.Id);
+                        if (grade != null) {
+                            Console.WriteLine("Nota: " + grade.Score);
+                        }
+                        else Console.WriteLine("Nota não lançada");
+                        break;
+                    case 3:
+                        break;
+                }
+            } while (true);
+        }
     }
 }

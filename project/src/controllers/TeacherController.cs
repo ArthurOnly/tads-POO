@@ -29,57 +29,105 @@ namespace App.Controllers
                 Console.WriteLine("2 - Listar turmas");
                 Console.WriteLine("3 - Acessar turma");
                 Console.WriteLine("4 - Deletar turma");
-                Console.WriteLine("5 - Sair");
+                Console.WriteLine("5 - Cadastrar aluno");
+                Console.WriteLine("6 - Listar alunos");
+                Console.WriteLine("7 - Sair");
                 int option = Convert.ToInt32(Console.ReadLine());
 
-                if (option == 5) break;
+                if (option == 7) break;
 
                 switch (option)
                 {
                     case 1:
-                        Console.WriteLine("Digite a matéria da turma");
-                        string subject = Console.ReadLine();
-                        Classroom classroom = new Classroom(subject, teacher);
-                        teacher.Classrooms.Add(classroom);
+                        CreateClassroom(teacher);
                         break;
 
                     case 2:
-                        Console.WriteLine("---- Turmas ----");
-                        foreach (Classroom tclassroom in teacher.Classrooms)
-                        {
-                            Console.WriteLine(tclassroom.Id + " - " + tclassroom.Subject);
-                        }
+                        IndexClassroom(teacher);
                         break;
                     
                     case 3:
-                        Console.WriteLine("Digite o id da turma");
-                        int id = Convert.ToInt32(Console.ReadLine());
-                        Classroom classroom2 = teacher.Classrooms.Find(x => x.Id == id);
-                        if (classroom2 != null) {
-                            Console.WriteLine("Turma encontrada");
-                            ClassroomController.MenuTeacher(classroom2);
-                        }
-                        else Console.WriteLine("Turma não encontrada");
+                        ShowClassroom(teacher);
                         break;
 
                     case 4:
-                        Console.WriteLine("Digite o id da turma");
-                        int id2 = Convert.ToInt32(Console.ReadLine());
-                        Classroom classroom3 = teacher.Classrooms.Find(x => x.Id == id2);
-                        if (classroom3 != null) {
-                            Console.WriteLine("Turma encontrada");
-                            teacher.Classrooms.Remove(classroom3);
-                        }
-                        else Console.WriteLine("Turma não encontrada");
+                        DeleteClassroom(teacher);
                         break;
 
                     case 5:
+                        CreateStudent(teacher);
+                        break;
+
+                    case 6:
+                        IndexStudent(teacher);
                         break;
 
                     default:
+                        Console.WriteLine("Opção inválida");
                         break;
                 }
             } while (true);
+        }
+
+        private static void CreateClassroom(Teacher teacher)
+        {
+            Console.WriteLine("Digite a matéria da turma");
+            string subject = Console.ReadLine();
+            Classroom classroom = new Classroom(subject, teacher);
+            teacher.Classrooms.Add(classroom);
+        }
+
+        private static void IndexClassroom(Teacher teacher)
+        {
+            Console.WriteLine("---- Turmas ----");
+            foreach (Classroom classroom in teacher.Classrooms)
+            {
+                Console.WriteLine(classroom.Id + " - " + classroom.Subject);
+            }
+        }
+
+        private static void ShowClassroom(Teacher teacher)
+        {
+            Console.WriteLine("Digite o id da turma");
+            int id = Convert.ToInt32(Console.ReadLine());
+            Classroom classroom = teacher.Classrooms.Find(x => x.Id == id);
+            if (classroom != null) {
+                Console.WriteLine("Turma encontrada");
+                ClassroomController.MenuTeacher(classroom);
+            }
+            else Console.WriteLine("Turma não encontrada");
+        }
+
+        public static void DeleteClassroom(Teacher teacher)
+        {
+            Console.WriteLine("Digite o id da turma");
+            int id = Convert.ToInt32(Console.ReadLine());
+            Classroom classroom = teacher.Classrooms.Find(x => x.Id == id);
+            if (classroom != null) {
+                Console.WriteLine("Turma encontrada");
+                teacher.Classrooms.Remove(classroom);
+            }
+            else Console.WriteLine("Turma não encontrada");
+        }
+
+        private static void CreateStudent(Teacher teacher)
+        {
+            Console.WriteLine("Digite o nome do aluno");
+            string name = Console.ReadLine();
+            Console.WriteLine("Digite o email do aluno");
+            string email = Console.ReadLine();
+            Console.WriteLine("Digite a senha do aluno");
+            string password = Console.ReadLine();
+            Student student = new Student(name, email, password);
+        }
+
+        private static void IndexStudent(Teacher teacher)
+        {
+            Console.WriteLine("---- Alunos ----");
+            foreach (Student student in Student.Students)
+            {
+                Console.WriteLine(student.Id + " - " + student.Name);
+            }
         }
     }
 }

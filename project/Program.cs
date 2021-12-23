@@ -7,7 +7,7 @@ namespace App {
         static void Main(string[] args) {
             int option = 0;
 
-            Teacher initial = new Teacher("teste", "teste@teste", "123");
+            Teacher initial = new Teacher("teste", "t@t", "123");
 
             Console.WriteLine("---- Bem vindo ao TextClassroom ----");
             do {
