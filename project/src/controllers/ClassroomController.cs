@@ -25,41 +25,16 @@ namespace App.Controllers
                 switch(option)
                 {
                     case 1:
-                        Console.WriteLine("Digite o nome da atividade");
-                        string name = Console.ReadLine();
-                        Console.WriteLine("Digite a descrição da atividade");
-                        string description = Console.ReadLine();
-                        Console.WriteLine("Digite o link da atividade");
-                        string link = Console.ReadLine();
-                        Activity activity = new Activity(name, description, link, classroom);
-                        classroom.Activities.Add(activity);
+                        CreateActivity(classroom);
                         break;
                     case 2:
-                        Console.WriteLine("---- Atividades ----");
-                        foreach (Activity activity5 in classroom.Activities)
-                        {
-                            Console.WriteLine(activity5.Id + " - " + activity5.Name);
-                        }
+                        IndexActivities(classroom);
                         break;
                     case 3:
-                        Console.WriteLine("Digite o id da atividade");
-                        int id = Convert.ToInt32(Console.ReadLine());
-                        Activity activity3 = classroom.Activities.Find(x => x.Id == id);
-                        if (activity3 != null) {
-                            Console.WriteLine("Atividade encontrada");
-                            ActivityController.MenuTeacher(activity3);
-                        }
-                        else Console.WriteLine("Atividade não encontrada");
+                        ShowActivity(classroom);
                         break;
                     case 4:
-                        Console.WriteLine("Digite o id da atividade");
-                        int id2 = Convert.ToInt32(Console.ReadLine());
-                        Activity activity2 = classroom.Activities.Find(x => x.Id == id2);
-                        if (activity2 != null) {
-                            Console.WriteLine("Atividade encontrada");
-                            classroom.Activities.Remove(activity2);
-                        }
-                        else Console.WriteLine("Atividade não encontrada");
+                        DeleteActivity(classroom);
                         break;
                     case 5:
                         AddStudent(classroom);
@@ -77,6 +52,50 @@ namespace App.Controllers
             } while (true);
         }
 
+        private static void CreateActivity(Classroom classroom)
+        {
+            Console.WriteLine("Digite o nome da atividade");
+            string name = Console.ReadLine();
+            Console.WriteLine("Digite a descrição da atividade");
+            string description = Console.ReadLine();
+            Console.WriteLine("Digite o link da atividade");
+            string link = Console.ReadLine();
+            Activity activity = new Activity(name, description, link, classroom);
+            classroom.Activities.Add(activity);
+        }
+
+        private static void IndexActivities(Classroom classroom)
+        {
+            Console.WriteLine("---- Atividades ----");
+            foreach (Activity activity5 in classroom.Activities)
+            {
+                Console.WriteLine(activity5.Id + " - " + activity5.Name);
+            }
+        }
+
+        private static void ShowActivity(Classroom classroom)
+        {
+            Console.WriteLine("Digite o id da atividade");
+            int id = Convert.ToInt32(Console.ReadLine());
+            Activity activity3 = classroom.Activities.Find(x => x.Id == id);
+            if (activity3 != null) {
+                Console.WriteLine("Atividade encontrada");
+                ActivityController.MenuTeacher(activity3);
+            }
+            else Console.WriteLine("Atividade não encontrada");
+        }
+
+        private static void DeleteActivity(Classroom classroom)
+        {
+            Console.WriteLine("Digite o id da atividade");
+            int id = Convert.ToInt32(Console.ReadLine());
+            Activity activity = classroom.Activities.Find(x => x.Id == id);
+            if (activity != null) {
+                Console.WriteLine("Atividade encontrada");
+                classroom.Activities.Remove(activity);
+            }
+            else Console.WriteLine("Atividade não encontrada");
+        }
         private static void AddStudent(Classroom classroom)
         {
             Console.WriteLine("Digite o id do aluno");
