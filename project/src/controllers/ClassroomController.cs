@@ -13,34 +13,43 @@ namespace App.Controllers
                 Console.WriteLine("1 - Criar atividade");
                 Console.WriteLine("2 - Listar atividades");
                 Console.WriteLine("3 - Acessar atividade");
-                Console.WriteLine("4 - Deletar atividade");
-                Console.WriteLine("5 - Adicionar aluno");
-                Console.WriteLine("6 - Remover aluno");
-                Console.WriteLine("7 - Voltar");
+                Console.WriteLine("4 - Atualizar atividade");
+                Console.WriteLine("5 - Deletar atividade");
+                Console.WriteLine("6 - Adicionar aluno");
+                Console.WriteLine("7 - Remover aluno");
+                Console.WriteLine("8 - Voltar");
 
                 int option = Convert.ToInt32(Console.ReadLine());
 
-                if (option == 7) break;
+                if (option == 8) break;
 
                 switch(option)
                 {
                     case 1:
                         CreateActivity(classroom);
                         break;
+
                     case 2:
                         IndexActivities(classroom);
                         break;
+
                     case 3:
                         ShowActivity(classroom);
                         break;
+
                     case 4:
+                        UpdateActivity(classroom);
+                        break;
+
+                    case 5:
                         DeleteActivity(classroom);
                         break;
-                    case 5:
+
+                    case 6:
                         AddStudent(classroom);
                         break;
                         
-                    case 6:
+                    case 7:
                         RemoveStudent(classroom);
                         break;
 
@@ -62,6 +71,27 @@ namespace App.Controllers
             string link = Console.ReadLine();
             Activity activity = new Activity(name, description, link, classroom);
             classroom.Activities.Add(activity);
+        }
+
+        private static void UpdateActivity(Classroom classroom)
+        {
+            Console.WriteLine("Digite o id da atividade");
+            int id = Convert.ToInt32(Console.ReadLine());
+            Activity activity = classroom.Activities.Find(x => x.Id == id);
+            if (activity != null) {
+                Console.WriteLine("Digite o nome da atividade");
+                string name = Console.ReadLine();
+                Console.WriteLine("Digite a descrição da atividade");
+                string description = Console.ReadLine();
+                Console.WriteLine("Digite o link da atividade");
+                string link = Console.ReadLine();
+                activity.Name = name;
+                activity.Description = description;
+                activity.Link = link;
+            }
+            else {
+                Console.WriteLine("Atividade não encontrada");
+            }
         }
 
         private static void IndexActivities(Classroom classroom)

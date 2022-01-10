@@ -28,8 +28,8 @@ namespace App.Controllers
                 Console.WriteLine("1 - Criar turma");
                 Console.WriteLine("2 - Listar turmas");
                 Console.WriteLine("3 - Acessar turma");
-                Console.WriteLine("4 - Deletar turma");
-                Console.WriteLine("5 - Cadastrar aluno");
+                Console.WriteLine("4 - Atualizar turma");
+                Console.WriteLine("5 - Deletar turma");
                 Console.WriteLine("6 - Listar alunos");
                 Console.WriteLine("7 - Sair");
                 int option = Convert.ToInt32(Console.ReadLine());
@@ -51,11 +51,11 @@ namespace App.Controllers
                         break;
 
                     case 4:
-                        DeleteClassroom(teacher);
+                        UpdateClassroom(teacher);
                         break;
 
                     case 5:
-                        CreateStudent(teacher);
+                        DeleteClassroom(teacher);
                         break;
 
                     case 6:
@@ -94,6 +94,20 @@ namespace App.Controllers
             if (classroom != null) {
                 Console.WriteLine("Turma encontrada");
                 ClassroomController.MenuTeacher(classroom);
+            }
+            else Console.WriteLine("Turma não encontrada");
+        }
+
+        private static void UpdateClassroom(Teacher teacher)
+        {
+            Console.WriteLine("Digite o id da turma");
+            int id = Convert.ToInt32(Console.ReadLine());
+            Classroom classroom = teacher.Classrooms.Find(x => x.Id == id);
+            if (classroom != null) {
+                Console.WriteLine("Turma encontrada");
+                Console.WriteLine("Digite o novo nome da turma");
+                string subject = Console.ReadLine();
+                classroom.Subject = subject;
             }
             else Console.WriteLine("Turma não encontrada");
         }

@@ -14,10 +14,11 @@ namespace App {
                 Console.WriteLine("---- Escolha uma opção ----");
                 Console.WriteLine("1 - Entrar como professor");
                 Console.WriteLine("2 - Entrar como aluno");
-                Console.WriteLine("3 - Sair");
+                Console.WriteLine("3 - Registrar-se como aluno");
+                Console.WriteLine("4 - Sair do programa");
                 option = Convert.ToInt32(Console.ReadLine());
 
-                if (option == 3) break;
+                if (option == 4) break;
 
                 switch (option){
                     case 1:
@@ -25,6 +26,9 @@ namespace App {
                         break;
                     case 2:
                         StudentController.Login();
+                        break;
+                    case 3:
+                        StudentController.Register();
                         break;
                     default:
                         Console.WriteLine("Opção inválida");

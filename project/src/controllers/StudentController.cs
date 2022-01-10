@@ -73,6 +73,24 @@ namespace App.Controllers
                 ClassroomController.MenuStudent(student, classroom);
             }
         }
+
+        public static void Register()
+        {
+            try{
+                Console.WriteLine("---- Cadastro de aluno ----");
+                Console.WriteLine("Digite seu nome");
+                string name = Console.ReadLine();
+                Console.WriteLine("Digite seu email");
+                string email = Console.ReadLine();
+                Console.WriteLine("Digite sua senha");
+                string password = Console.ReadLine();
+
+                Student student = new Student(name, email, password);
+                Menu(student);
+            } catch (Exception e){
+                Console.WriteLine("Erro no registro");
+            }
+        }
   
     }
 }
