@@ -1,6 +1,6 @@
 namespace App.Models
 {
-    class Student : User
+    class Student : User, IComparable<Student>
     {
         private List<Classroom> _classrooms;
         private static List<Student> _students = new List<Student>();
@@ -15,6 +15,11 @@ namespace App.Models
         {
             get { return _students; }
             set { _students = value; }
+        }
+
+        public int CompareTo(Student other)
+        {
+            return this.Name.CompareTo(other.Name);
         }
 
         public Student(string name, string email, string password) : base(name, email, password)

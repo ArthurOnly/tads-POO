@@ -137,6 +137,7 @@ namespace App.Controllers
 
         private static void IndexStudent(Teacher teacher)
         {
+            Student.Students.Sort();
             Console.WriteLine("---- Alunos ----");
             foreach (Student student in Student.Students)
             {
