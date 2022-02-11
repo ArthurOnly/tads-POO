@@ -24,6 +24,11 @@ namespace App.Controllers
                         Console.WriteLine(activity.Name + " - " + activity.Description + " - " + activity.Link);
                         break;
                     case 2:
+                        activity.Classroom.Students.Sort();
+                        foreach (Student studentL in activity.Classroom.Students)
+                        {
+                            Console.WriteLine(studentL.Id + " - " + studentL.Name);
+                        }
                         Console.WriteLine("Digite o id do aluno");
                         int id = Convert.ToInt32(Console.ReadLine());
                         Student student = activity.Classroom.Students.Find(x => x.Id == id);

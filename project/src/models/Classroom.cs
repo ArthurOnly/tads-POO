@@ -1,6 +1,6 @@
 namespace App.Models
 {
-    class Classroom
+    class Classroom : IComparable<Classroom>
     {
         private static int quantity = 1;
         private int _id;
@@ -55,6 +55,11 @@ namespace App.Models
         {
             _students.Clear();
             _activities.Clear();
+        }
+
+        public int CompareTo(Classroom other)
+        {
+            return this.Subject.CompareTo(other.Subject);
         }
     }
 }

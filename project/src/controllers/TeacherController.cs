@@ -79,6 +79,7 @@ namespace App.Controllers
 
         private static void IndexClassroom(Teacher teacher)
         {
+            teacher.Classrooms.Sort();
             Console.WriteLine("---- Turmas ----");
             foreach (Classroom classroom in teacher.Classrooms)
             {

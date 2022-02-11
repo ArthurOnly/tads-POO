@@ -97,6 +97,7 @@ namespace App.Controllers
         private static void IndexActivities(Classroom classroom)
         {
             Console.WriteLine("---- Atividades ----");
+            classroom.Activities.Sort();
             foreach (Activity activity5 in classroom.Activities)
             {
                 Console.WriteLine(activity5.Id + " - " + activity5.Name);

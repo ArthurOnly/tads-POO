@@ -1,6 +1,6 @@
 namespace App.Models
 {
-    class Activity
+    class Activity : IComparable<Activity>
     {
         private static List<Activity> _activities = new List<Activity>();
 
@@ -63,6 +63,11 @@ namespace App.Models
         ~Activity()
         {
             _activities.Remove(this);
+        }
+
+        public int CompareTo(Activity other)
+        {
+            return this.Name.CompareTo(other.Name);
         }
 
     }

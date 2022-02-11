@@ -52,6 +52,7 @@ namespace App.Controllers
         public static void IndexClassroom(Student student)
         {
             Console.WriteLine("---- Lista de turmas ----");
+            student.Classrooms.Sort();
             foreach (Classroom classroom in student.Classrooms)
             {
                 Console.WriteLine(classroom.Id + " - " + classroom.Subject);
