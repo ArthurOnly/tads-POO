@@ -7,7 +7,7 @@ namespace App {
         static void Main(string[] args) {
             int option = 0;
 
-            Teacher initial = new Teacher("teste", "t@t", "123");
+            Seed();
 
             Console.WriteLine("---- Bem vindo ao TextClassroom ----");
             do {
@@ -36,6 +36,18 @@ namespace App {
                 }
                 
             } while (true);
+        }
+
+        public static void Seed()
+        {
+            new Teacher("teste", "t@t", "123");
+
+            new Student("a1", "a@a", "123");
+            new Student("e1", "e@e", "123");
+            new Student("c1", "c@c", "123");
+            new Student("d1", "d@d", "123");
+            new Student("b1", "b@b", "123");
+            new Student("f1", "f@f", "123");
         }
     }
 }
