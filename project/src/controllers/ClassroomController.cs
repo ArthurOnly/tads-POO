@@ -1,5 +1,6 @@
 using App.Models;
 using App.Controllers;
+using System.Globalization;
 
 namespace App.Controllers
 {
@@ -69,7 +70,10 @@ namespace App.Controllers
             string description = Console.ReadLine();
             Console.WriteLine("Digite o link da atividade");
             string link = Console.ReadLine();
-            Activity activity = new Activity(name, description, link, classroom);
+            Console.WriteLine("Digite a data de entrega da atividade (m/d/Y)");
+            string finalDate = Console.ReadLine();
+            DateTime date = DateTime.Parse(finalDate, CultureInfo.CreateSpecificCulture("pt-BR"));
+            Activity activity = new Activity(name, description, link, classroom, date);
             classroom.Activities.Add(activity);
         }
 
@@ -156,17 +160,18 @@ namespace App.Controllers
             else Console.WriteLine("Aluno não encontrado");
         }
 
-        public static void MenuStudent(Student student, Classroom classroom)
+        public static async void MenuStudent(Student student, Classroom classroom)
         {
             do{
                 Console.WriteLine("---- Menu da turma ----");
                 Console.WriteLine("1 - Listar atividades");
                 Console.WriteLine("2 - Acessar atividade");
+                Console.WriteLine("3 - Acessar atividade mais recente");
                 Console.WriteLine("3 - Voltar");
 
                 int option = Convert.ToInt32(Console.ReadLine());
 
-                if (option == 3) break;
+                if (option == 4) break;
 
                 switch(option)
                 {
@@ -187,7 +192,16 @@ namespace App.Controllers
                         }
                         else Console.WriteLine("Atividade não encontrada");
                         break;
+                        
                     case 3:
+                        Activity act = Activity.Activities.Where(a => a.Classroom == classroom).OrderByDescending(a => a.FinalDate).First();
+                        if (act != null) {
+                            Console.WriteLine("Atividade encontrada");
+                            ActivityController.MenuStudent(student, act);
+                        }
+                        else Console.WriteLine("Não há atividades");
+                        break;
+                    case 4:
                         break;
                 }
             } while (true);

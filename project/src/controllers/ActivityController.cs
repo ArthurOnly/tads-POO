@@ -12,16 +12,18 @@ namespace App.Controllers
                 Console.WriteLine("---- Menu da atividade ----");
                 Console.WriteLine("1 - Mostrar descrição");
                 Console.WriteLine("2 - Atribuir nota");
-                Console.WriteLine("3 - Voltar");
+                Console.WriteLine("3 - 3 Maiores notas");
+                Console.WriteLine("4 - Sumário de notas");
+                Console.WriteLine("5 - Voltar");
 
                 int option = Convert.ToInt32(Console.ReadLine());
 
-                if (option == 3) break;
+                if (option == 5) break;
 
                 switch(option)
                 {
                     case 1:
-                        Console.WriteLine(activity.Name + " - " + activity.Description + " - " + activity.Link);
+                        Console.WriteLine(activity.Name + " - " + activity.Description + " - " + activity.Link + " - " + activity.FinalDate.ToString("dd/MM/yyyy"));
                         break;
                     case 2:
                         activity.Classroom.Students.Sort();
@@ -40,7 +42,31 @@ namespace App.Controllers
                         }
                         else Console.WriteLine("Aluno não encontrado");
                         break;
+
                     case 3:
+                        var act = activity.Grades.OrderByDescending(x => x.Score).Take(3);
+                        if (act.Count() == 0) Console.WriteLine("Nenhuma nota registrada");
+                        else
+                        {
+                            foreach (Grade grade in act)
+                            {
+                                Console.WriteLine(grade.Student.Id + " - " + grade.Student.Name + " - " + grade.Score);
+                            }
+                        }
+                        break;
+
+                    case 4:
+                        var studentsPerGrade = activity.Grades.GroupBy(x => Math.Floor(x.Score), (key, group) => new { Key = key, Count = group.Count() });
+                        if (studentsPerGrade.Count() == 0) Console.WriteLine("Nenhuma nota registrada");
+                        else
+                        {
+                            foreach (var grade in studentsPerGrade)
+                            {
+                                Console.WriteLine(grade.Key + " - " + grade.Count);
+                            }
+                        }
+                        break;
+                    case 5:
                         break;
                 }
             } while (true);
@@ -61,7 +87,7 @@ namespace App.Controllers
                 switch(option)
                 {
                     case 1:
-                        Console.WriteLine(activity.Name + " - " + activity.Description + " - " + activity.Link);
+                        Console.WriteLine(activity.Name + " - " + activity.Description + " - " + activity.Link + " - " + activity.FinalDate.ToString("dd/MM/yyyy"));
                         break;
                     case 2:
                         Grade grade = activity.Grades.Find(x => x.Student.Id == student.Id);

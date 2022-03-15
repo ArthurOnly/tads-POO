@@ -1,3 +1,5 @@
+using System.Collections;
+
 namespace App.Models
 {
     class Classroom : IComparable<Classroom>
@@ -6,6 +8,7 @@ namespace App.Models
         private int _id;
         private string _subject;
 
+        private static List<Classroom> _classrooms = new List<Classroom>();
         private Teacher _teacher;
 
         private List<Student> _students;
@@ -42,6 +45,12 @@ namespace App.Models
             set { _activities = value; }
         }
 
+        public static List<Classroom> Classrooms
+        {
+            get { return _classrooms; }
+            set { _classrooms = value; }
+        }
+
         public Classroom(string subject, Teacher teacher)
         {
             _id = quantity++;
@@ -49,6 +58,8 @@ namespace App.Models
             _students = new List<Student>();
             _activities = new List<Activity>();
             _teacher = teacher;
+            quantity++;
+            _classrooms.Add(this);
         }
 
         ~Classroom()

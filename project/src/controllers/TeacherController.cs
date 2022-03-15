@@ -79,9 +79,9 @@ namespace App.Controllers
 
         private static void IndexClassroom(Teacher teacher)
         {
-            teacher.Classrooms.Sort();
+            var classrooms = Classroom.Classrooms.Where(c => c.Teacher.Id == teacher.Id);
             Console.WriteLine("---- Turmas ----");
-            foreach (Classroom classroom in teacher.Classrooms)
+            foreach (Classroom classroom in classrooms)
             {
                 Console.WriteLine(classroom.Id + " - " + classroom.Subject);
             }
@@ -91,7 +91,7 @@ namespace App.Controllers
         {
             Console.WriteLine("Digite o id da turma");
             int id = Convert.ToInt32(Console.ReadLine());
-            Classroom classroom = teacher.Classrooms.Find(x => x.Id == id);
+            Classroom classroom = Classroom.Classrooms.Find(x => x.Id == id);
             if (classroom != null) {
                 Console.WriteLine("Turma encontrada");
                 ClassroomController.MenuTeacher(classroom);
@@ -138,11 +138,11 @@ namespace App.Controllers
 
         private static void IndexStudent(Teacher teacher)
         {
-            Student.Students.Sort();
+            var students = Student.Students.Select(s => s.Id + " - " + s.Name);
             Console.WriteLine("---- Alunos ----");
-            foreach (Student student in Student.Students)
+            foreach (string student in students)
             {
-                Console.WriteLine(student.Id + " - " + student.Name);
+                Console.WriteLine(student);
             }
         }
     }

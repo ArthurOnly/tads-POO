@@ -3,13 +3,14 @@ namespace App.Models
     class Activity : IComparable<Activity>
     {
         private static List<Activity> _activities = new List<Activity>();
-
         private List<Grade> _grades = new List<Grade>();
         private static int quantity = 1;
         private int _id;
         private string _name;
         private string _description;
         private string _link;
+
+        private DateTime _finalDate;
 
         private Classroom _classroom;
 
@@ -49,13 +50,26 @@ namespace App.Models
             set { _grades = value; }
         }
 
-        public Activity(string name, string description, string link, Classroom classroom)
+        public static List<Activity> Activities
         {
-            this.Name = name;
-            this.Description = description;
-            this.Link = link;
-            this.Id = quantity;
-            this.Classroom = classroom;
+            get { return _activities; }
+            set { _activities = value; }
+        }
+
+        public DateTime FinalDate
+        {
+            get { return _finalDate; }
+            set { _finalDate = value; }
+        }
+
+        public Activity(string name, string description, string link, Classroom classroom, DateTime finalDate)
+        {
+            _id = quantity++;
+            _name = name;
+            _description = description;
+            _link = link;
+            _classroom = classroom;
+            _finalDate = finalDate;
             quantity++;
             _activities.Add(this);
         }

@@ -6,6 +6,8 @@ namespace App.Models
         private int _id;
         private double _score;
 
+        private static List<Grade> _grades = new List<Grade>();
+
         private Student _student;
 
         private Activity _activity;
@@ -33,6 +35,14 @@ namespace App.Models
             get { return _activity; }
             set { _activity = value; }
         }
+
+        public List<Grade> Grades
+        {
+            get { return _grades; }
+            set { _grades = value; }
+        }
+
+
 
         public Grade(double score, Student student, Activity activity)
         {
