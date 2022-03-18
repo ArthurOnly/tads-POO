@@ -1,8 +1,12 @@
+using System.Xml.Serialization;
+
 namespace App.Models
 {
-    abstract class User 
+    [XmlInclude(typeof(Teacher))]
+    [XmlInclude(typeof(Student))]
+    public abstract class User 
     {
-        private static List<User> _users = new List<User>();
+        protected static List<User> _users = new List<User>();
         public static int quantity = 1;
         private int _id;
         private string _name;
@@ -33,6 +37,11 @@ namespace App.Models
             set { _password = value; }
         }
 
+        public User()
+        {
+            
+        }
+
         public User(string name, string email, string password)
         {
             this.Name = name;
@@ -41,11 +50,36 @@ namespace App.Models
             this.Id = quantity;
             _users.Add(this);
             quantity++;
+
+            //escrever dados no ficheiro XML
+            XmlSerializer serializer = new XmlSerializer(typeof(List<User>));
+            using (FileStream fs = new FileStream("store/users.xml", FileMode.OpenOrCreate)){
+                serializer.Serialize(fs, _users);
+            }
+        }
+
+        public static void readFromFile()
+        {
+            XmlSerializer serializer = new XmlSerializer(typeof(List<User>));
+            if (File.Exists("store/users.xml"))
+            {
+                using (StreamReader reader = new StreamReader("store/users.xml"))
+                {
+                    _users = (List<User>)serializer.Deserialize(reader);
+                }
+            }
         }
 
         ~User()
         {
             _users.Remove(this);
+
+            //escrever dados no ficheiro XML
+            XmlSerializer serializer = new XmlSerializer(typeof(List<User>));
+            using (FileStream fs = new FileStream("store/users.xml", FileMode.OpenOrCreate)){
+                serializer.Serialize(fs, _users);
+            }
+            serializer = null;
         }
 
         public static User Login(string email, string password)

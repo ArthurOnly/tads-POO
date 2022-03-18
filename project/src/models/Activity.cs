@@ -1,6 +1,10 @@
+using System.Xml.Serialization;
+
 namespace App.Models
 {
-    class Activity : IComparable<Activity>
+    [XmlInclude(typeof(Classroom))]
+    [XmlInclude(typeof(Grade))]
+    public class Activity : IComparable<Activity>
     {
         private static List<Activity> _activities = new List<Activity>();
         private List<Grade> _grades = new List<Grade>();
@@ -43,13 +47,13 @@ namespace App.Models
             get { return _classroom; }
             set { _classroom = value; }
         }
-
+        [XmlArray]
         public List<Grade> Grades
         {
             get { return _grades; }
             set { _grades = value; }
         }
-
+        [XmlArray]
         public static List<Activity> Activities
         {
             get { return _activities; }
@@ -62,6 +66,11 @@ namespace App.Models
             set { _finalDate = value; }
         }
 
+        public Activity()
+        {
+
+        }
+
         public Activity(string name, string description, string link, Classroom classroom, DateTime finalDate)
         {
             _id = quantity++;
@@ -72,16 +81,40 @@ namespace App.Models
             _finalDate = finalDate;
             quantity++;
             _activities.Add(this);
+
+            //escrever dados no ficheiro XML
+            XmlSerializer serializer = new XmlSerializer(typeof(List<Activity>));
+            using (FileStream fs = new FileStream("store/activities.xml", FileMode.OpenOrCreate)){
+                serializer.Serialize(fs, _activities);
+            }
         }
 
         ~Activity()
         {
             _activities.Remove(this);
+
+            //escrever dados no ficheiro XML
+            XmlSerializer serializer = new XmlSerializer(typeof(List<Activity>));
+            using (FileStream fs = new FileStream("store/activities.xml", FileMode.OpenOrCreate)){
+                serializer.Serialize(fs, _activities);
+            }
         }
 
         public int CompareTo(Activity other)
         {
             return this.Name.CompareTo(other.Name);
+        }
+
+        public static void readFromFile()
+        {
+            XmlSerializer serializer = new XmlSerializer(typeof(List<Activity>));
+            if (File.Exists("store/activities.xml"))
+            {
+                using (StreamReader reader = new StreamReader("store/activities.xml"))
+                {
+                    Activities = (List<Activity>)serializer.Deserialize(reader);
+                }
+            }
         }
 
     }

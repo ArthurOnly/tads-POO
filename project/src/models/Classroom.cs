@@ -1,8 +1,11 @@
-using System.Collections;
+using System.Xml.Serialization;
 
 namespace App.Models
 {
-    class Classroom : IComparable<Classroom>
+    [XmlInclude(typeof(Teacher))]
+    [XmlInclude(typeof(Student))]
+    [XmlInclude(typeof(Activity))]
+    public class Classroom : IComparable<Classroom>
     {
         private static int quantity = 1;
         private int _id;
@@ -32,13 +35,13 @@ namespace App.Models
             get { return _teacher; }
             set { _teacher = value; }
         }
-
+        [XmlArray]
         public List<Student> Students
         {
             get { return _students; }
             set { _students = value; }
         }
-
+        [XmlArray]
         public List<Activity> Activities
         {
             get { return _activities; }
@@ -51,6 +54,12 @@ namespace App.Models
             set { _classrooms = value; }
         }
 
+        public Classroom()
+        {
+            _students = new List<Student>();
+            _activities = new List<Activity>();
+        }
+
         public Classroom(string subject, Teacher teacher)
         {
             _id = quantity++;
@@ -60,12 +69,39 @@ namespace App.Models
             _teacher = teacher;
             quantity++;
             _classrooms.Add(this);
+
+            //escrever dados no ficheiro XML
+            XmlSerializer serializer = new XmlSerializer(typeof(List<Classroom>));
+            using (FileStream fs = new FileStream("store/classrooms.xml", FileMode.OpenOrCreate)){
+                serializer.Serialize(fs, _classrooms);
+            }
         }
 
         ~Classroom()
         {
             _students.Clear();
             _activities.Clear();
+            _classrooms.Remove(this);
+        }
+
+        public static void saveToFile()
+        {
+            XmlSerializer serializer = new XmlSerializer(typeof(List<Classroom>));
+            using (FileStream fs = new FileStream("store/classrooms.xml", FileMode.OpenOrCreate)){
+                serializer.Serialize(fs, _classrooms);
+            }
+        }
+
+        public static void readFromFile()
+        {
+            XmlSerializer serializer = new XmlSerializer(typeof(List<Classroom>));
+            if (File.Exists("store/classrooms.xml"))
+            {
+                using (StreamReader reader = new StreamReader("store/classrooms.xml"))
+                {
+                    Classrooms = (List<Classroom>)serializer.Deserialize(reader);
+                }
+            }
         }
 
         public int CompareTo(Classroom other)

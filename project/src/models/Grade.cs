@@ -1,6 +1,10 @@
+using System.Xml.Serialization;
+
 namespace App.Models
 {
-    class Grade
+    [XmlInclude(typeof(Student))]
+    [XmlInclude(typeof(Activity))]
+    public class Grade
     {
         private static int quantity = 1;
         private int _id;
@@ -23,7 +27,7 @@ namespace App.Models
             get { return _score; }
             set { _score = value; }
         }
-
+        
         public Student Student
         {
             get { return _student; }
@@ -36,13 +40,16 @@ namespace App.Models
             set { _activity = value; }
         }
 
-        public List<Grade> Grades
+        public static List<Grade> Grades
         {
             get { return _grades; }
             set { _grades = value; }
         }
 
+        public Grade()
+        {
 
+        }
 
         public Grade(double score, Student student, Activity activity)
         {
@@ -51,12 +58,37 @@ namespace App.Models
             this.Activity = activity;
             this.Id = quantity;
             quantity++;
+
+            //escrever dados no ficheiro XML
+            XmlSerializer serializer = new XmlSerializer(typeof(List<Grade>));
+            using (FileStream fs = new FileStream("store/grades.xml", FileMode.OpenOrCreate)){
+                serializer.Serialize(fs, _grades);
+            }
+        }
+
+        public static void readFromFile()
+        {
+            XmlSerializer serializer = new XmlSerializer(typeof(List<Grade>));
+            if (File.Exists("store/grades.xml"))
+            {
+                using (StreamReader reader = new StreamReader("store/grades.xml"))
+                {
+                    Grades = (List<Grade>)serializer.Deserialize(reader);
+                }
+            }
         }
 
         ~Grade()
         {
             this.Student = null;
             this.Activity = null;
+            _grades.Remove(this);
+
+            //escrever dados no ficheiro XML
+            XmlSerializer serializer = new XmlSerializer(typeof(List<Grade>));
+            using (FileStream fs = new FileStream("store/grades.xml", FileMode.OpenOrCreate)){
+                serializer.Serialize(fs, _grades);
+            }
         }
     }
 }

@@ -1,0 +1,1 @@
+﻿<?xml version="1.0" encoding="utf-8"?><ArrayOfClassroom xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"><Classroom><Id>1</Id><Subject>a</Subject><Teacher><Id>1</Id><Name>a</Name><Email>a</Email><Password>a</Password><Classrooms /></Teacher><Students /><Activities /></Classroom></ArrayOfClassroom>

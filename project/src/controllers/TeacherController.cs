@@ -145,5 +145,23 @@ namespace App.Controllers
                 Console.WriteLine(student);
             }
         }
+
+        public static void Register()
+        {
+            try{
+                Console.WriteLine("---- Cadastro de aluno ----");
+                Console.WriteLine("Digite seu nome");
+                string name = Console.ReadLine();
+                Console.WriteLine("Digite seu email");
+                string email = Console.ReadLine();
+                Console.WriteLine("Digite sua senha");
+                string password = Console.ReadLine();
+
+                Teacher tc = new Teacher(name, email, password);
+                Console.WriteLine("---- Cadastro realizado com sucesso ----");
+            } catch (Exception e){
+                Console.WriteLine(e);
+            }
+        }
     }
 }

@@ -14,11 +14,12 @@ namespace App {
                 Console.WriteLine("---- Escolha uma opção ----");
                 Console.WriteLine("1 - Entrar como professor");
                 Console.WriteLine("2 - Entrar como aluno");
-                Console.WriteLine("3 - Registrar-se como aluno");
-                Console.WriteLine("4 - Sair do programa");
+                Console.WriteLine("3 - Registrar-se como professor");
+                Console.WriteLine("4 - Registrar-se como aluno");
+                Console.WriteLine("5 - Sair do programa");
                 option = Convert.ToInt32(Console.ReadLine());
 
-                if (option == 4) break;
+                if (option == 5) break;
 
                 switch (option){
                     case 1:
@@ -28,6 +29,9 @@ namespace App {
                         StudentController.Login();
                         break;
                     case 3:
+                        TeacherController.Register();
+                        break;
+                    case 4:
                         StudentController.Register();
                         break;
                     default:
@@ -40,14 +44,11 @@ namespace App {
 
         public static void Seed()
         {
-            new Teacher("teste", "t@t", "123");
-
-            new Student("a1", "a@a", "123");
-            new Student("e1", "e@e", "123");
-            new Student("c1", "c@c", "123");
-            new Student("d1", "d@d", "123");
-            new Student("b1", "b@b", "123");
-            new Student("f1", "f@f", "123");
+            Student.readFromFile();
+            Teacher.readFromFile();
+            Grade.readFromFile();
+            Classroom.readFromFile();
+            Activity.readFromFile();
         }
     }
 }

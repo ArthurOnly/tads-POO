@@ -87,7 +87,7 @@ namespace App.Controllers
                 string password = Console.ReadLine();
 
                 Student student = new Student(name, email, password);
-                Menu(student);
+                Console.WriteLine("---- Cadastro realizado com sucesso ----");
             } catch (Exception e){
                 Console.WriteLine("Erro no registro");
             }
