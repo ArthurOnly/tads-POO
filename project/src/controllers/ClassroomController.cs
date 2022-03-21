@@ -1,6 +1,8 @@
 using App.Models;
 using App.Controllers;
 using System.Globalization;
+using System;
+using System.Linq;
 
 namespace App.Controllers
 {
@@ -16,13 +18,14 @@ namespace App.Controllers
                 Console.WriteLine("3 - Acessar atividade");
                 Console.WriteLine("4 - Atualizar atividade");
                 Console.WriteLine("5 - Deletar atividade");
-                Console.WriteLine("6 - Adicionar aluno");
-                Console.WriteLine("7 - Remover aluno");
-                Console.WriteLine("8 - Voltar");
+                Console.WriteLine("6 - Listar alunos");
+                Console.WriteLine("7 - Adicionar aluno");
+                Console.WriteLine("8 - Remover aluno");
+                Console.WriteLine("9 - Voltar");
 
                 int option = Convert.ToInt32(Console.ReadLine());
 
-                if (option == 8) break;
+                if (option == 9) break;
 
                 switch(option)
                 {
@@ -47,10 +50,14 @@ namespace App.Controllers
                         break;
 
                     case 6:
+                        IndexStudents(classroom);
+                        break;
+
+                    case 7:
                         AddStudent(classroom);
                         break;
                         
-                    case 7:
+                    case 8:
                         RemoveStudent(classroom);
                         break;
 
@@ -70,11 +77,21 @@ namespace App.Controllers
             string description = Console.ReadLine();
             Console.WriteLine("Digite o link da atividade");
             string link = Console.ReadLine();
-            Console.WriteLine("Digite a data de entrega da atividade (m/d/Y)");
+            Console.WriteLine("Digite a data de entrega da atividade (d/m/Y)");
             string finalDate = Console.ReadLine();
             DateTime date = DateTime.Parse(finalDate, CultureInfo.CreateSpecificCulture("pt-BR"));
-            Activity activity = new Activity(name, description, link, classroom, date);
+            Activity activity = new Activity(name, description, link, date);
             classroom.Activities.Add(activity);
+            classroom.save();
+        }
+
+        private static void IndexStudents(Classroom classroom)
+        {
+            Console.WriteLine("---- Alunos da turma ----");
+            foreach (Student student in classroom.Students)
+            {
+                Console.WriteLine(student.Id + " - " + student.Name);
+            }
         }
 
         private static void UpdateActivity(Classroom classroom)
@@ -143,7 +160,7 @@ namespace App.Controllers
             Student studentInClass = classroom.Students.Find(x => x.Id == id);
             if (studentInClass == null) {
                 classroom.Students.Add(student);
-                student.Classrooms.Add(classroom);
+                classroom.save();
             }
             else Console.WriteLine("Aluno já adicionado");
         }
@@ -155,7 +172,6 @@ namespace App.Controllers
             Student student = classroom.Students.Find(x => x.Id == id);
             if (student != null) {
                 classroom.Students.Remove(student);
-                student.Classrooms.Remove(classroom);
             }
             else Console.WriteLine("Aluno não encontrado");
         }
@@ -167,7 +183,7 @@ namespace App.Controllers
                 Console.WriteLine("1 - Listar atividades");
                 Console.WriteLine("2 - Acessar atividade");
                 Console.WriteLine("3 - Acessar atividade mais recente");
-                Console.WriteLine("3 - Voltar");
+                Console.WriteLine("4 - Voltar");
 
                 int option = Convert.ToInt32(Console.ReadLine());
 
@@ -194,7 +210,7 @@ namespace App.Controllers
                         break;
                         
                     case 3:
-                        Activity act = Activity.Activities.Where(a => a.Classroom == classroom).OrderByDescending(a => a.FinalDate).First();
+                        Activity act = classroom.Activities.OrderByDescending(a => a.FinalDate).First();
                         if (act != null) {
                             Console.WriteLine("Atividade encontrada");
                             ActivityController.MenuStudent(student, act);

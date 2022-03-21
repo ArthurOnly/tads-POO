@@ -1,3 +1,7 @@
+using App.Helpers;
+using System;
+using System.Collections.Generic;
+
 namespace App.Models
 {
     class Grade
@@ -9,8 +13,6 @@ namespace App.Models
         private static List<Grade> _grades = new List<Grade>();
 
         private Student _student;
-
-        private Activity _activity;
 
         public int Id
         {
@@ -30,33 +32,31 @@ namespace App.Models
             set { _student = value; }
         }
 
-        public Activity Activity
-        {
-            get { return _activity; }
-            set { _activity = value; }
-        }
-
-        public List<Grade> Grades
+        public static List<Grade> Grades
         {
             get { return _grades; }
             set { _grades = value; }
         }
 
+        public Grade(){}
 
-
-        public Grade(double score, Student student, Activity activity)
+        public Grade(double score, Student student)
         {
             this.Score = score;
             this.Student = student;
-            this.Activity = activity;
             this.Id = quantity;
+            _grades.Add(this);
             quantity++;
+            save();
         }
 
         ~Grade()
         {
             this.Student = null;
-            this.Activity = null;
+        }
+
+        public void save(){
+            JsonHelper.SaveInJson("grades", _grades);
         }
     }
 }

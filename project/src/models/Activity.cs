@@ -1,3 +1,7 @@
+using App.Helpers;
+using System;
+using System.Collections.Generic;
+
 namespace App.Models
 {
     class Activity : IComparable<Activity>
@@ -11,8 +15,6 @@ namespace App.Models
         private string _link;
 
         private DateTime _finalDate;
-
-        private Classroom _classroom;
 
         public int Id
         {
@@ -38,11 +40,6 @@ namespace App.Models
             set { _link = value; }
         }
 
-        public Classroom Classroom
-        {
-            get { return _classroom; }
-            set { _classroom = value; }
-        }
 
         public List<Grade> Grades
         {
@@ -62,16 +59,30 @@ namespace App.Models
             set { _finalDate = value; }
         }
 
-        public Activity(string name, string description, string link, Classroom classroom, DateTime finalDate)
+        public Activity(){}
+
+        public Activity(string name, string description, string link, DateTime finalDate, List<Grade> grades)
+        {
+            this.Name = name;
+            this.Description = description;
+            this.Link = link;
+            this.FinalDate = finalDate;
+            this.Grades = grades;
+            this.Id = quantity;
+            _activities.Add(this);
+            quantity++;
+            save();
+        }
+        public Activity(string name, string description, string link, DateTime finalDate)
         {
             _id = quantity++;
             _name = name;
             _description = description;
             _link = link;
-            _classroom = classroom;
             _finalDate = finalDate;
             quantity++;
             _activities.Add(this);
+            save();
         }
 
         ~Activity()
@@ -84,5 +95,8 @@ namespace App.Models
             return this.Name.CompareTo(other.Name);
         }
 
+        public void save(){
+            JsonHelper.SaveInJson("activities", _activities);
+        }
     }
 }

@@ -1,5 +1,6 @@
-using System.Collections;
-
+using App.Helpers;
+using System;
+using System.Collections.Generic;
 namespace App.Models
 {
     class Classroom : IComparable<Classroom>
@@ -53,13 +54,30 @@ namespace App.Models
 
         public Classroom(string subject, Teacher teacher)
         {
+            Console.WriteLine("entra");
             _id = quantity++;
             _subject = subject;
             _students = new List<Student>();
             _activities = new List<Activity>();
             _teacher = teacher;
-            quantity++;
             _classrooms.Add(this);
+            save();
+        }
+
+        public Classroom(){
+            
+        }
+
+        public Classroom(string subject, Teacher teacher, List<Student> students, List<Activity> activities)
+        {
+            Console.WriteLine("entra2");
+            _id = quantity++;
+            _subject = subject;
+            _students = students;
+            _activities = activities;
+            _teacher = teacher;
+            _classrooms.Add(this);
+            save();
         }
 
         ~Classroom()
@@ -71,6 +89,10 @@ namespace App.Models
         public int CompareTo(Classroom other)
         {
             return this.Subject.CompareTo(other.Subject);
+        }
+
+        public void save(){
+            JsonHelper.SaveInJson("classrooms", _classrooms);
         }
     }
 }

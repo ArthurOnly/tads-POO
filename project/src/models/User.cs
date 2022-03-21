@@ -1,6 +1,10 @@
+using App.Helpers;
+using System;
+using System.Collections.Generic;
+
 namespace App.Models
 {
-    abstract class User 
+    public class User 
     {
         private static List<User> _users = new List<User>();
         public static int quantity = 1;
@@ -18,7 +22,7 @@ namespace App.Models
         public string Name
         {
             get { return _name; }
-            set { _name = value; }
+            set { _name = value;  }
         }
 
         public string Email
@@ -33,6 +37,14 @@ namespace App.Models
             set { _password = value; }
         }
 
+        public static List<User> Users
+        {
+            get { return _users; }
+            set { _users = value; }
+        }
+
+        public User(){}
+
         public User(string name, string email, string password)
         {
             this.Name = name;
@@ -41,6 +53,7 @@ namespace App.Models
             this.Id = quantity;
             _users.Add(this);
             quantity++;
+            save();
         }
 
         ~User()
@@ -58,6 +71,11 @@ namespace App.Models
                 }
             }
             return null;
+        }
+
+        public void save()
+        {
+            JsonHelper.SaveInJson("users", _users);
         }
 
     }

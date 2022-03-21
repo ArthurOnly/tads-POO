@@ -1,27 +1,38 @@
+using App.Helpers;
+using System;
+using System.Collections.Generic;
+
 namespace App.Models
 {
     class Teacher : User, IComparable<Teacher>
     {
-        private List<Classroom> _classrooms;
+        private static List<Teacher> _teachers = new List<Teacher>();
 
-        public List<Classroom> Classrooms
+
+        public static List<Teacher> Teachers
         {
-            get { return _classrooms; }
-            set { _classrooms = value; }
+            get { return _teachers; }
+            set { _teachers = value; }
         }
+
         public Teacher(string name, string email, string password) : base(name, email, password)
         {
-            _classrooms = new List<Classroom>();
+            _teachers.Add(this);
+            save();
         }
 
         ~Teacher()
         {
-            _classrooms = null;
+            
         }
 
         public int CompareTo(Teacher other)
         {
             return this.Name.CompareTo(other.Name);
+        }
+
+        public void save(){
+            JsonHelper.SaveInJson("teachers", _teachers);
         }
 
     }

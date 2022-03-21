@@ -1,5 +1,7 @@
 using App.Models;
 using App.Controllers;
+using System;
+using System.Linq;
 
 namespace App.Controllers
 {
@@ -14,7 +16,7 @@ namespace App.Controllers
 
             try{
                 User user = User.Login(email, password);
-                Teacher teacher = (Teacher)user;
+                Teacher teacher = Teacher.Teachers.Find(t => t.Email == email);
                 Menu(teacher);
             } catch (Exception e){
                 Console.WriteLine("Credenciais incorretas");
@@ -74,7 +76,7 @@ namespace App.Controllers
             Console.WriteLine("Digite a matéria da turma");
             string subject = Console.ReadLine();
             Classroom classroom = new Classroom(subject, teacher);
-            teacher.Classrooms.Add(classroom);
+            teacher.save();
         }
 
         private static void IndexClassroom(Teacher teacher)
@@ -103,7 +105,7 @@ namespace App.Controllers
         {
             Console.WriteLine("Digite o id da turma");
             int id = Convert.ToInt32(Console.ReadLine());
-            Classroom classroom = teacher.Classrooms.Find(x => x.Id == id);
+            Classroom classroom = Classroom.Classrooms.Find(x => x.Id == id);
             if (classroom != null) {
                 Console.WriteLine("Turma encontrada");
                 Console.WriteLine("Digite o novo nome da turma");
@@ -117,10 +119,10 @@ namespace App.Controllers
         {
             Console.WriteLine("Digite o id da turma");
             int id = Convert.ToInt32(Console.ReadLine());
-            Classroom classroom = teacher.Classrooms.Find(x => x.Id == id);
+            Classroom classroom = Classroom.Classrooms.Find(x => x.Id == id);
             if (classroom != null) {
                 Console.WriteLine("Turma encontrada");
-                teacher.Classrooms.Remove(classroom);
+                Classroom.Classrooms.Remove(classroom);
             }
             else Console.WriteLine("Turma não encontrada");
         }
@@ -143,6 +145,24 @@ namespace App.Controllers
             foreach (string student in students)
             {
                 Console.WriteLine(student);
+            }
+        }
+
+        public static void Register()
+        {
+            try{
+                Console.WriteLine("---- Cadastro de aluno ----");
+                Console.WriteLine("Digite seu nome");
+                string name = Console.ReadLine();
+                Console.WriteLine("Digite seu email");
+                string email = Console.ReadLine();
+                Console.WriteLine("Digite sua senha");
+                string password = Console.ReadLine();
+
+                Teacher student = new Teacher(name, email, password);
+                Console.WriteLine('\n' + "---- Professor cadastrado com sucesso ----");
+            } catch (Exception e){
+                Console.WriteLine("Erro no registro");
             }
         }
     }

@@ -1,4 +1,6 @@
 using App.Models;
+using System;
+using System.Linq;
 
 namespace App.Controllers
 {
@@ -12,7 +14,7 @@ namespace App.Controllers
 
             try{
                 User user = User.Login(email, password);
-                Student student = (Student)user;
+                Student student = Student.Students.Find(s => s.Email == email);
                 Menu(student);
             } catch (Exception e){
                 Console.WriteLine("Credenciais incorretas");
@@ -52,8 +54,7 @@ namespace App.Controllers
         public static void IndexClassroom(Student student)
         {
             Console.WriteLine("---- Lista de turmas ----");
-            student.Classrooms.Sort();
-            foreach (Classroom classroom in student.Classrooms)
+            foreach (Classroom classroom in Classroom.Classrooms.Where(c => c.Students.Find(s => s.Id == student.Id) != null))
             {
                 Console.WriteLine(classroom.Id + " - " + classroom.Subject);
             }
@@ -64,7 +65,7 @@ namespace App.Controllers
             Console.WriteLine("---- Acessar turma ----");
             Console.WriteLine("Digite o id da turma");
             int id = Convert.ToInt32(Console.ReadLine());
-            Classroom classroom = student.Classrooms.Find(x => x.Id == id);
+            Classroom classroom = Classroom.Classrooms.Find(x => x.Id == id);
             if (classroom == null)
             {
                 Console.WriteLine("Turma não encontrada");
@@ -87,7 +88,7 @@ namespace App.Controllers
                 string password = Console.ReadLine();
 
                 Student student = new Student(name, email, password);
-                Menu(student);
+                Console.WriteLine('\n' + "---- Aluno cadastrado com sucesso ----");
             } catch (Exception e){
                 Console.WriteLine("Erro no registro");
             }

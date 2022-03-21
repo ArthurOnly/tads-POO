@@ -1,5 +1,6 @@
 using App.Models;
-using App.Controllers;
+using System;
+using System.Linq;
 
 namespace App.Controllers
 {
@@ -26,19 +27,21 @@ namespace App.Controllers
                         Console.WriteLine(activity.Name + " - " + activity.Description + " - " + activity.Link + " - " + activity.FinalDate.ToString("dd/MM/yyyy"));
                         break;
                     case 2:
-                        activity.Classroom.Students.Sort();
-                        foreach (Student studentL in activity.Classroom.Students)
+                        foreach (Student studentL in Classroom.Classrooms.Where(c => c.Activities.Contains(activity)).SelectMany(c => c.Students))
                         {
                             Console.WriteLine(studentL.Id + " - " + studentL.Name);
                         }
                         Console.WriteLine("Digite o id do aluno");
                         int id = Convert.ToInt32(Console.ReadLine());
-                        Student student = activity.Classroom.Students.Find(x => x.Id == id);
+                        Student student = Classroom.Classrooms.Where(c => c.Activities.Contains(activity)).First().Students.Find(x => x.Id == id);
                         if (student != null) {
                             Console.WriteLine("Aluno encontrado");
                             Console.WriteLine("Digite a nota do aluno");
                             int grade = Convert.ToInt32(Console.ReadLine());
-                            activity.Grades.Add(new Grade(grade, student, activity));
+                            Grade gradeF = new Grade(grade, student);
+                            activity.Grades.Add(gradeF);
+                            activity.save();
+                            Classroom.Classrooms.Where(c => c.Activities.Contains(activity)).First().save();
                         }
                         else Console.WriteLine("Aluno não encontrado");
                         break;

@@ -1,15 +1,11 @@
+using App.Helpers;
+using System;
+using System.Collections.Generic;
 namespace App.Models
 {
     class Student : User, IComparable<Student>
     {
-        private List<Classroom> _classrooms;
         private static List<Student> _students = new List<Student>();
-
-        public List<Classroom> Classrooms
-        {
-            get { return _classrooms; }
-            set { _classrooms = value; }
-        }
 
         public static List<Student> Students
         {
@@ -22,17 +18,24 @@ namespace App.Models
             return this.Name.CompareTo(other.Name);
         }
 
+        public Student(){}
+
         public Student(string name, string email, string password) : base(name, email, password)
         {
-            _classrooms = new List<Classroom>();
             _students.Add(this);
+            save();
         }
+
+        //on poperty change
 
         ~Student()
         {
-            _classrooms = null;
             _students.Remove(this);
         }
-                
+
+        public void save()
+        {
+            JsonHelper.SaveInJson("students", _students);
+        }
     }
 }
